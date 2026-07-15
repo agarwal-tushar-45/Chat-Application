@@ -40,7 +40,13 @@ io.on("connection", (socket) => {
 })
 
 app.use(express.json({limit:"10mb"}));
-app.use(cors());
+app.use(cors({
+   origin: [
+      "http://localhost:5173",
+      "https://your-frontend.vercel.app",
+    ],
+    credentials: true,
+}));
 
 
 //Routes setup
@@ -55,11 +61,13 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    const PORT = process.env.PORT || 5001;
+    if (process.env.NODE_ENV !== "production") {
+      const PORT = process.env.PORT || 5001;
 
-    server.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}`);
-    });
+      server.listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+      });
+    }
   } catch (error) {
     console.error("Failed to connect to database:", error);
     process.exit(1);
