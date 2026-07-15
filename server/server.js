@@ -14,7 +14,9 @@ const server = http.createServer(app);
 //Intialize socket.io server
 export const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin:[ "https://chat-application-pink-ten.vercel.app",
+      "http://localhost:5173"
+    ],
     methods: ["GET", "POST"],
   },
 });
@@ -43,7 +45,7 @@ app.use(express.json({limit:"10mb"}));
 app.use(cors({
    origin: [
       "http://localhost:5173",
-      "https://your-frontend.vercel.app",
+      "https://chat-application-pink-ten.vercel.app",
     ],
     credentials: true,
 }));
